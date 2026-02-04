@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+:root {
+  --bg-main: #01161e;
+  --text-primary: #eff6e0;
+  --text-secondary: #aec3b0;
+  --grid-line: rgba(174, 195, 176, 0.05);
+  
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+}
+
+.light {
+  --bg-main: #f8fafc;
+  --text-primary: #001d3d;
+  --text-secondary: #1e3a5f;
+  --grid-line: rgba(0, 53, 102, 0.04);
+}
+
+@theme {
+  --color-primary: #003566;
+  --color-secondary: #014f86;
+  --color-accent: #224870;
+  --color-mineral: #598392;
+
+  --color-background: var(--bg-main);
+  --color-text-creme: var(--text-primary);
+  --color-text-oliva: var(--text-secondary);
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-main);
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+}
+
+section {
+  border: none !important;
+  outline: none !important;
+  margin-top: -1px;
+}
+
+.tech-grid {
+  background-image: 
+    linear-gradient(var(--grid-line) 1px, transparent 1px), 
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+@media (max-width: 768px) {
+  .tech-grid {
+    background-size: 30px 30px;
+  }
+}
