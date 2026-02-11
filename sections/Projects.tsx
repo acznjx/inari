@@ -8,14 +8,14 @@ const projetos = [
     status: "Projeto Ativo",
     descricao: "Landing page artesanal com estética minimalista, focada em experiência do usuário e conversão para ateliês.",
     tech: ["Next.js", "Tailwind", "Framer Motion"],
-    link: "https://croche-website.vercel.app/",
+    link: "https://crochestudio.vercel.app/",
   },
   {
     titulo: "TorkMotos",
     status: "Projeto Ativo",
     descricao: "Interface de alta performance com foco em estética minimalista e navegação fluida.",
     tech: ["Next.js", "Tailwind", "Motion"],
-    link: "https://torkmotos.vercel.app/",
+    link: "https://tork-motos.vercel.app/",
   }
 ];
 
