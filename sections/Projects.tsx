@@ -1,103 +1,118 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
+import { useRef } from "react";
+import Link from 'next/link';
 
-const projetos = [
-  {
-    titulo: "Crochê Studio",
-    status: "Projeto Ativo",
-    descricao: "Landing page artesanal com estética minimalista, focada em experiência do usuário e conversão para ateliês.",
-    tech: ["Next.js", "Tailwind", "Framer Motion"],
-    link: "https://crochestudio.vercel.app/",
-  },
-  {
-    titulo: "TorkMotos",
-    status: "Projeto Ativo",
-    descricao: "Interface de alta performance com foco em estética minimalista e navegação fluida.",
-    tech: ["Next.js", "Tailwind", "Motion"],
-    link: "https://tork-motos.vercel.app/",
-  }
-];
+interface SectionProps {
+  lang: string;
+}
 
-export default function Projetos() {
+export default function Projetos({ lang }: SectionProps) {
+  const containerRef = useRef(null);
+
+  const content = {
+    PT: {
+      title: "PROJETOS",
+      subtitle: "SELECIONADOS",
+      visit: "VISITAR",
+      items: [
+        { id: "01", titulo: "Crochê Studio", link: "https://crochestudio.vercel.app/" },
+        { id: "02", titulo: "Tork Motos", link: "https://tork-motos.vercel.app/" }
+      ]
+    },
+    EN: {
+      title: "SELECTED",
+      subtitle: "PROJECTS",
+      visit: "VISIT",
+      items: [
+        { id: "01", titulo: "Crochê Studio", link: "https://crochestudio.vercel.app/" },
+        { id: "02", titulo: "Tork Motos", link: "https://tork-motos.vercel.app/" }
+      ]
+    }
+  };
+
+  const t = content[lang as keyof typeof content];
+  
+  const { scrollYProgress } = useScroll({ 
+    target: containerRef, 
+    offset: ["start end", "end start"] 
+  });
+
+  const scaleY = useSpring(scrollYProgress, { 
+    stiffness: 100, 
+    damping: 30,
+    restDelta: 0.001
+  });
+
   return (
     <section 
+      ref={containerRef} 
       id="projetos" 
-      className="relative min-h-screen w-full py-24 md:py-40 bg-background px-6 overflow-hidden flex flex-col justify-center transition-colors duration-500"
+      className="relative w-full bg-[#050505] py-24 px-6 md:px-16 overflow-hidden"
     >
-      
-      {/* 1. FUNDO UNIFICADO: Luz radial dinâmica */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-mineral)_0.05,transparent_70%)] opacity-20 pointer-events-none z-0" />
-
-      <div className="max-w-7xl mx-auto relative z-10 w-full">
+      <div className="max-w-6xl mx-auto w-full relative z-10">
         
-        <header className="mb-20 md:mb-28">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <span className="text-text-oliva text-[10px] font-bold uppercase tracking-[0.6em] mb-4 block">
-              Portfólio
-            </span>
-            <h2 className="text-4xl md:text-7xl font-black text-text-creme tracking-tighter uppercase italic">
-              Projetos <span className="text-mineral not-italic font-light uppercase">Ativos</span>
-            </h2>
-          </motion.div>
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-          {projetos.map((projeto, index) => (
-            <motion.article 
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+        {/* HEADER: RIGOROSAMENTE IGUAL AO DE SOLUÇÕES */}
+        <div className="relative mb-16 md:mb-24">
+          <motion.div 
+            style={{ scaleY: scaleY, originY: 0 }}
+            className="absolute left-0 top-0 w-1 h-full z-20 bg-[#E89624]"
+          />
+          
+          <div className="pl-10">
+            <motion.div
+              key={lang}
+              initial={{ opacity: 0, x: -15 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              className="group relative bg-mineral/5 rounded-[32px] p-8 md:p-12 transition-all duration-500 hover:bg-mineral/10 shadow-2xl shadow-black/20"
+              transition={{ duration: 0.8 }}
             >
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex items-center gap-2 mb-8 bg-background w-fit px-3 py-1.5 rounded-full border border-mineral/20">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                  </span>
-                  <span className="text-text-creme text-[9px] font-bold uppercase tracking-widest italic">
-                    {projeto.status}
-                  </span>
-                </div>
+              <h2 className="font-title text-4xl md:text-6xl text-white tracking-tighter uppercase italic leading-[0.9]">
+                {t.title} <br />
+                <span className="font-body font-light not-italic opacity-20 text-3xl md:text-5xl tracking-normal">
+                  {t.subtitle}
+                </span>
+              </h2>
+            </motion.div>
+          </div>
+        </div>
 
-                <h3 className="text-3xl md:text-4xl font-black text-text-creme mb-6 tracking-tighter uppercase italic group-hover:text-text-oliva transition-colors">
-                  {projeto.titulo}
+        {/* LISTA EXECUTIVA: COMPACTA E CLICÁVEL */}
+        <div className="flex flex-col border-t border-white/10">
+          {t.items.map((item, index) => (
+            <Link 
+              key={index} 
+              href={item.link} 
+              target="_blank" 
+              className="group relative flex items-center justify-between py-8 md:py-14 border-b border-white/10 transition-all duration-500"
+            >
+              <div className="flex items-center gap-4 md:gap-10 relative z-10">
+                {/* ID Discreto */}
+                <span className="font-mono text-[10px] md:text-xs text-zinc-600 group-hover:text-[#E89624] transition-colors">
+                  {item.id}
+                </span>
+                
+                {/* Título: Ajustado para não quebrar no mobile */}
+                <h3 className="text-2xl md:text-6xl font-title text-white uppercase italic tracking-tighter group-hover:text-[#E89624] transition-all duration-500 group-hover:translate-x-2 md:group-hover:translate-x-4">
+                  {item.titulo}
                 </h3>
+              </div>
 
-                <p className="text-text-oliva/60 text-sm md:text-base mb-10 leading-relaxed font-light max-w-sm">
-                  {projeto.descricao}
-                </p>
-
-                <div className="mt-auto pt-8 border-t border-mineral/10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-                  <div className="flex flex-wrap gap-4">
-                    {projeto.tech.map((t) => (
-                      <span key={t} className="text-[9px] font-medium text-mineral uppercase tracking-widest">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  <a 
-                    href={projeto.link} 
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-3 text-text-creme text-[10px] font-black uppercase tracking-[0.3em] group/link"
-                  >
-                    Ver Projeto 
-                    <div className="w-8 h-8 rounded-full border border-mineral/30 flex items-center justify-center group-hover/link:bg-text-creme group-hover/link:text-background transition-all">
-                      <FaArrowRight size={10} />
-                    </div>
-                  </a>
+              {/* Gatilho de Link Externo */}
+              <div className="flex items-center gap-4 relative z-10">
+                <span className="hidden md:block font-mono text-[9px] tracking-[0.4em] text-zinc-500 group-hover:text-white transition-colors uppercase">
+                  {t.visit}
+                </span>
+                
+                <div className="w-10 h-10 md:w-14 md:h-14 flex items-center justify-center border border-white/10 rounded-full group-hover:bg-[#E89624] group-hover:border-[#E89624] transition-all duration-500 bg-white/5 md:bg-transparent">
+                  <FaArrowRight size={14} className="text-white -rotate-45 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
               </div>
-            </motion.article>
+
+              {/* Linha de preenchimento (Desktop Only para não poluir mobile) */}
+              <div className="hidden md:block absolute left-0 bottom-0 w-full h-[1px] bg-[#E89624] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+            </Link>
           ))}
         </div>
       </div>

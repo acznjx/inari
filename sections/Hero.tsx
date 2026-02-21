@@ -1,96 +1,118 @@
 "use client";
-import { motion } from "framer-motion";
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaArrowRight } from "react-icons/fa";
+import { BackgroundGradientAnimation } from "@/components/ui/background-gradient-animation";
 
-export default function Hero() {
+interface HeroProps {
+  lang: string;
+}
+
+export default function Hero({ lang }: HeroProps) {
+  const content = {
+    PT: {
+      titleTop: "AUTORIDADE DIGITAL",
+      titleMid: "ESTRATÉGICA PARA",
+      titleBottom: "BRASILEIROS NOS EUA",
+      description: (
+        <>
+          Ajudamos empreendedores brasileiros a se posicionarem com autoridade no mercado americano através de <span className="underline decoration-[#E89624] decoration-4 underline-offset-8">design de alto padrão</span> e conversão.
+        </>
+      ),
+      btnPrimary: "Ver Projetos",
+      btnSecondary: "Agendar Conversa",
+      scroll: "Scroll"
+    },
+    EN: {
+      titleTop: "DIGITAL AUTHORITY",
+      titleMid: "STRATEGIC FOR",
+      titleBottom: "BRAZILIANS IN THE US",
+      description: (
+        <>
+          We help Brazilian entrepreneurs position themselves with authority in the US market through <span className="underline decoration-[#E89624] decoration-4 underline-offset-8">high-end design</span> and conversion.
+        </>
+      ),
+      btnPrimary: "View Projects",
+      btnSecondary: "Schedule a Call",
+      scroll: "Scroll"
+    }
+  };
+
+  const t = content[lang as keyof typeof content];
+
   return (
-    <section 
-      id="home" 
-      className="relative min-h-screen w-full flex flex-col items-center justify-center bg-background px-4 md:px-6 overflow-hidden transition-colors duration-500"
-    >
-      
-      {/* 1. GRID: Usando variável dinâmica para opacidade e cor */}
-      <div 
-        className="absolute inset-0 z-0 opacity-100 pointer-events-none tech-grid" 
-      />
+    <section id="home" className="relative min-h-screen w-full overflow-hidden bg-[#050505] transition-colors duration-500">
+      <BackgroundGradientAnimation containerClassName="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-1 tech-grid pointer-events-none opacity-30" />
+      </BackgroundGradientAnimation>
 
-      {/* 2. LUZES DINÂMICAS: Ajustadas para serem visíveis mas suaves em ambos os modos */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <motion.div 
-          animate={{ 
-            x: [-10, 10, -10], 
-            y: [0, -15, 0],
-            opacity: [0.05, 0.12, 0.05]
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 md:w-150 md:h-150 bg-mineral/30 blur-[80px] md:blur-[140px] rounded-full"
-        />
-      </div>
+      <div className="relative z-10 w-full min-h-screen max-w-7xl mx-auto flex flex-col items-center justify-center px-6 pointer-events-none">
+        <div className="h-8 md:h-16" /> 
 
-      {/* 3. CONTEÚDO PRINCIPAL */}
-      <div className="relative z-10 w-full max-w-5xl mx-auto text-center flex flex-col items-center">
-        
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mb-8 md:mb-12"
-        >
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-text-creme/5 border border-text-oliva/10 backdrop-blur-md">
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-text-oliva opacity-40"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-text-oliva"></span>
-            </span>
-            <span className="text-text-oliva text-[8px] md:text-[10px] tracking-[0.3em] font-bold uppercase">
-              Disponível para novos projetos
-            </span>
-          </div>
-        </motion.div>
+        <div className="text-center">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={lang}
+              initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
+              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+              exit={{ opacity: 0, filter: "blur(10px)", y: -20 }}
+              transition={{ duration: 0.6, ease: "circOut" }}
+            >
+              <h1 className="text-white text-[11vw] md:text-[100px] font-black tracking-tighter leading-[0.85] uppercase italic select-none">
+                {t.titleTop} <br />
+                <span className="font-light not-italic text-zinc-500 block my-2 text-[5vw] md:text-[45px]">
+                  {t.titleMid}
+                </span>
+                <span className="text-[#E89624] drop-shadow-[0_0_30px_rgba(232,150,36,0.3)]">
+                  {t.titleBottom}
+                </span>
+              </h1>
+              
+              <motion.p className="mt-6 md:mt-10 text-zinc-300 text-sm md:text-xl max-w-2xl mx-auto font-bold leading-relaxed px-4">
+                {t.description}
+              </motion.p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
-        <motion.h1 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="text-text-creme text-[12vw] sm:text-7xl md:text-[110px] font-extralight tracking-tight leading-[1.05] uppercase"
-        >
-          Websites <br /> 
-          <span className="text-text-oliva/20 font-light italic">Profissionais.</span>
-        </motion.h1>
-        
-        <motion.p 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-6 md:mt-10 text-text-oliva/40 text-xs sm:text-base md:text-xl max-w-70 sm:max-w-2xl leading-relaxed font-light tracking-[0.2em] uppercase"
-        >
-          Design limpo <span className="text-mineral mx-2 md:mx-4">|</span> Performance
-        </motion.p>
+        <motion.div className="mt-10 md:mt-16 flex flex-col sm:flex-row items-center gap-4 md:gap-6 pointer-events-auto w-full sm:w-auto">
+          <a href="#projetos" className="group w-full sm:w-auto px-10 md:px-14 py-4 md:py-5 bg-white text-black rounded-2xl text-[11px] md:text-[13px] font-black uppercase tracking-[0.2em] shadow-2xl transition-all hover:scale-105 flex items-center justify-center gap-4">
+            <AnimatePresence mode="wait">
+              <motion.span key={lang} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                {t.btnPrimary}
+              </motion.span>
+            </AnimatePresence>
+            <FaArrowRight className="group-hover:translate-x-2 transition-transform duration-300" />
+          </a>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-12 md:mt-20 w-full sm:w-auto"
-        >
-          <a 
-            href="#contato" 
-            className="inline-block w-full sm:w-auto px-12 py-5 border border-text-oliva/20 text-text-creme/80 font-bold transition-all duration-500 text-[10px] uppercase tracking-[0.5em] hover:bg-text-creme hover:text-background hover:border-text-creme active:scale-95"
-          >
-            Solicitar orçamento
+          <a href="#contato" className="w-full sm:w-auto px-10 md:px-14 py-4 md:py-5 border-2 border-white text-white rounded-2xl text-[11px] md:text-[13px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all duration-300 flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.span key={lang} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+                {t.btnSecondary}
+              </motion.span>
+            </AnimatePresence>
           </a>
         </motion.div>
+
+        <div className="h-20 md:h-28" />
       </div>
 
-      {/* 4. INDICADOR DE SCROLL (PADRONIZADO) */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none">
-        <motion.div 
-          animate={{ opacity: [0.2, 0.5, 0.2], y: [0, 8, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity }}
-          className="w-px h-16 bg-linear-to-b from-transparent via-text-oliva/40 to-transparent" 
-        />
+      <div className="absolute bottom-6 md:bottom-10 left-0 right-0 flex justify-center items-center pointer-events-none opacity-40">
+        <div className="flex flex-col items-center gap-2 md:gap-4">
+          <AnimatePresence mode="wait">
+            <motion.span 
+              key={lang}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.5em] text-white"
+            >
+              {t.scroll}
+            </motion.span>
+          </AnimatePresence>
+          <div className="w-px h-10 md:h-14 bg-gradient-to-b from-[#E89624] to-transparent" />
+        </div>
       </div>
-
-      {/* LUZ DE FUNDO UNIFICADA */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--color-mineral)_0.05,transparent_70%)] opacity-20 pointer-events-none" />
-
     </section>
   );
 }

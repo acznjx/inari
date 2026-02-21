@@ -1,76 +1,123 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
-export default function Navbar() {
-  const [isLight, setIsLight] = useState(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") === "light";
-    }
-    return false;
-  });
+interface NavBarProps {
+  lang: string;
+  setLang: Dispatch<SetStateAction<string>>;
+}
+
+export default function Navbar({ lang, setLang }: NavBarProps) {
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const html = document.documentElement;
-    if (isLight) {
-      html.classList.add("light");
-      localStorage.setItem("theme", "light");
-    } else {
-      html.classList.remove("light");
-      localStorage.setItem("theme", "dark");
-    }
-  }, [isLight]);
+    document.documentElement.classList.add("dark");
+    setMounted(true);
+  }, []);
 
-  const menuItems = [
-    { name: "Home", id: "home" },
-    { name: "Serviços", id: "solucoes" },
-    { name: "Stacks", id: "stacks" },
-    { name: "Projetos", id: "projetos" },
-  ];
+  const menuItems = {
+    PT: [
+      { name: "Projetos", id: "projetos" },
+      { name: "Serviços", id: "solucoes" },
+      { name: "Dúvidas", id: "faq" },
+      { name: "Contato", id: "contato" },
+    ],
+    EN: [
+      { name: "Projects", id: "projetos" },
+      { name: "Services", id: "solucoes" },
+      { name: "FAQ", id: "faq" },
+      { name: "Contact", id: "contato" },
+    ]
+  };
+
+  if (!mounted) return null;
 
   return (
-    <nav className="fixed top-6 md:top-10 w-full z-100 flex justify-center px-4 pointer-events-none">
-      <motion.div 
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        // Mantive o px-8/12 e py-3.5 que você gostou, mas usei variáveis de cor dinâmicas
-        className="flex items-center gap-4 sm:gap-6 md:gap-10 px-6 sm:px-8 md:px-12 py-3 md:py-3.5 bg-background/60 backdrop-blur-2xl border border-text-oliva/10 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] pointer-events-auto"
-      >
-        {menuItems.map((item) => (
-          <a 
-            key={item.id} 
-            href={`#${item.id}`}
-            // Ajuste leve no tracking para não estourar em telas de 320px
-            className="group relative text-[9px] md:text-[10px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-bold text-text-oliva hover:text-text-creme transition-all duration-500 whitespace-nowrap"
-          >
-            {item.name}
-            <span className="absolute -bottom-1 left-0 w-0 h-px bg-mineral transition-all duration-500 group-hover:w-full" />
-          </a>
-        ))}
-
-        {/* Divisor para separar o botão dos links */}
-        <div className="w-px h-4 bg-text-oliva/20 mx-1 md:mx-2" />
-
-        <button
-          onClick={() => setIsLight(!isLight)}
-          className="relative flex items-center justify-center w-8 h-8 rounded-full bg-accent/20 hover:bg-accent/40 transition-colors cursor-pointer shrink-0"
-          aria-label="Trocar tema"
+    <nav className="absolute top-0 left-0 w-full z-50 py-10 px-6 md:px-16">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        
+        {/* LOGO */}
+        <motion.a 
+          href="#home" 
+          whileHover={{ skewX: -10 }}
+          className="relative text-white font-title text-4xl tracking-[0.2em] uppercase cursor-pointer"
         >
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.span
-              key={isLight ? "light" : "dark"}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.5 }}
-              transition={{ duration: 0.2 }}
-              className="text-base"
+          INARI
+          <motion.span 
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute -right-4 top-0 text-[#E89624] text-[10px]"
+          >
+            ●
+          </motion.span>
+        </motion.a>
+
+        {/* MENU NAVEGAÇÃO */}
+        <div className="hidden md:flex items-center gap-10">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={lang}
+              initial={{ opacity: 0, filter: "blur(8px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, filter: "blur(8px)" }}
+              transition={{ duration: 0.5, ease: "circOut" }}
+              className="flex gap-10"
             >
-              {isLight ? "☀️" : "🌙"}
-            </motion.span>
+              {menuItems[lang as keyof typeof menuItems].map((item) => (
+                <a 
+                  key={item.id} 
+                  href={`#${item.id}`} 
+                  className="font-sub text-[10px] font-black uppercase tracking-[0.5em] text-zinc-500 hover:text-[#E89624] transition-all duration-300"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </motion.div>
           </AnimatePresence>
-        </button>
-      </motion.div>
+        </div>
+
+        {/* SELETOR DE IDIOMA */}
+        <div className="relative flex items-center bg-[#0a0a0a] border border-zinc-800/50 p-1.5 rounded-full backdrop-blur-xl">
+          <div className="flex gap-1 relative">
+            {["PT", "EN"].map((l) => (
+              <button
+                key={l}
+                onClick={() => setLang(l)}
+                className={`relative z-10 w-12 h-8 font-mono text-[11px] font-bold transition-colors duration-500 ${
+                  lang === l ? "text-black" : "text-zinc-500 hover:text-zinc-300"
+                }`}
+              >
+                {l}
+              </button>
+            ))}
+
+            <motion.div
+              layoutId="activeLang"
+              className="absolute inset-y-0 left-0 w-12 bg-[#E89624] rounded-full z-0 shadow-[0_0_20px_rgba(232,150,36,0.4)]"
+              animate={{
+                x: lang === "PT" ? 0 : 52,
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 250,
+                damping: 25
+              }}
+            />
+          </div>
+          
+          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
+             <motion.span 
+               key={lang}
+               initial={{ opacity: 0, y: -5 }}
+               animate={{ opacity: 1, y: 0 }}
+               className="text-[7px] font-mono text-zinc-700 tracking-[0.3em] uppercase"
+             >
+               Engine_Output: {lang === "PT" ? "BR_SO" : "INT_DV"}
+             </motion.span>
+          </div>
+        </div>
+
+      </div>
     </nav>
   );
 }

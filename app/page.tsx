@@ -1,25 +1,28 @@
+"use client";
+import { useState } from "react"; // Importamos o useState
 import Navbar from "@/sections/NavBar";
 import Hero from "@/sections/Hero";
 import Services from "@/sections/Services";
 import TechStack from "@/sections/TechStack";
 import Projects from "@/sections/Projects"; 
+import Faq from "@/sections/Faq";
 import Contact from "@/sections/Contact";
+import Footer from "@/sections/Footer";
 
 export default function Home() {
+  const [lang, setLang] = useState("PT");
+
   return (
-    // Removido qualquer gap ou padding que possa causar divisões entre os filhos
     <main className="relative bg-[#01161e] min-h-screen w-full flex flex-col m-0 p-0 overflow-x-hidden antialiased">
-      <Navbar />
+      <Navbar lang={lang} setLang={setLang} />
       
-      {/* As seções agora se empilham perfeitamente. 
-          O segredo está no globals.css (com margin-top: -1px) 
-          e na remoção dos gradientes de borda nos componentes internos.
-      */}
-      <Hero />
-      <Services />
-      <TechStack />
-      <Projects /> 
-      <Contact />
+      <Hero lang={lang} />
+      <Services lang={lang} />
+      <TechStack lang={lang} />
+      <Projects lang={lang} /> 
+      <Faq lang={lang} />
+      <Contact lang={lang} />
+      <Footer lang={lang} />
     </main>
   );
 }

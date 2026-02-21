@@ -1,23 +1,30 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Inter } from "next/font/google";
+import { Inter, Bebas_Neue } from "next/font/google";
 import "@/app/globals.css";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+// Inter: Configurada com pesos 200 (Extra Light) e 900 (Black)
+const inter = Inter({ 
+  subsets: ["latin"], 
+  weight: ["200", "900"], 
+  variable: "--font-inter" 
+});
+
+// Bebas Neue: Fonte para títulos de impacto
+const bebas = Bebas_Neue({ 
+  weight: "400",
+  subsets: ["latin"], 
+  variable: "--font-bebas" 
+});
 
 export const metadata: Metadata = {
-  title: "Websites Profissionais",
-  description: "Desenvolvimento de interfaces exclusivas, landing pages e sites de alta performance.",
+  title: "Inari Technology",
+  description: "Estratégia para brasileiros nos EUA",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" className="scroll-smooth">
-      <body className={`${inter.variable} ${mono.variable} font-sans bg-black antialiased`}>
+      <body className={`${inter.variable} ${bebas.variable} antialiased bg-white text-zinc-900`}>
         {children}
       </body>
     </html>
