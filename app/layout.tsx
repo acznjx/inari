@@ -2,14 +2,12 @@ import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import "@/app/globals.css";
 
-// Inter: Configurada com pesos 200 (Extra Light) e 900 (Black)
 const inter = Inter({ 
   subsets: ["latin"], 
   weight: ["200", "900"], 
   variable: "--font-inter" 
 });
 
-// Bebas Neue: Fonte para títulos de impacto
 const bebas = Bebas_Neue({ 
   weight: "400",
   subsets: ["latin"], 
@@ -26,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR" className="scroll-smooth">
       <body className={`${inter.variable} ${bebas.variable} antialiased bg-white text-zinc-900`}>
         {children}
+        {/* REMOVIDO DAQUI PARA FUNCIONAR O IDIOMA DINÂMICO */}
       </body>
     </html>
   );
