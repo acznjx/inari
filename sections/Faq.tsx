@@ -1,7 +1,9 @@
 "use client";
+
 import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import { useState, useRef } from "react";
 import { FaPlus } from "react-icons/fa";
+import Image from "next/image";
 
 interface SectionProps {
   lang: string;
@@ -11,6 +13,9 @@ export default function Faq({ lang }: SectionProps) {
   const [aberto, setAberto] = useState<number | null>(null);
   const containerRef = useRef(null);
 
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO (PT / EN)
+  // ---------------------------------------------------------
   const content = {
     PT: {
       title: "DÚVIDAS",
@@ -62,6 +67,9 @@ export default function Faq({ lang }: SectionProps) {
 
   const t = content[lang as keyof typeof content];
   
+  // ---------------------------------------------------------
+  // LÓGICA DE ANIMAÇÃO E SCROLL
+  // ---------------------------------------------------------
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
@@ -79,24 +87,27 @@ export default function Faq({ lang }: SectionProps) {
       id="faq" 
       className="relative w-full bg-white dark:bg-[#050505] px-0 pb-32 transition-colors duration-500 overflow-hidden"
     >
-      {/* HEADER IMAGE: ESTILO F1/HIGH TECH */}
+      
+      {/* SECTION: VISUAL HEADER (IMAGEM + GHOST TEXT) */}
       <div className="w-full h-[50vh] md:h-[65vh] relative overflow-hidden bg-white dark:bg-black flex items-center justify-center">
         <motion.div 
           style={{ scale: imageScale, opacity: imageOpacity }} 
           className="absolute inset-0 w-full h-full"
         >
-          <img 
+          <Image 
             src="https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=2101&auto=format&fit=crop" 
             alt="Technical Support"
-            className="w-full h-full object-cover grayscale contrast-125 brightness-125 dark:brightness-50"
+            fill
+            priority
+            className="object-cover grayscale contrast-125 brightness-125 dark:brightness-50"
           />
         </motion.div>
         
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent dark:from-[#050505] dark:via-transparent dark:to-black/80" />
+        <div className="absolute inset-0 bg-linear-to-t from-white via-white/20 to-transparent dark:from-[#050505] dark:via-transparent dark:to-black/80" />
         
         <motion.span 
           style={{ x: textMove }}
-          className="absolute text-[12vw] font-black text-zinc-100 dark:text-white/[0.03] uppercase italic whitespace-nowrap pointer-events-none select-none"
+          className="absolute text-[12vw] font-black text-zinc-100 dark:text-white/3 uppercase italic whitespace-nowrap pointer-events-none select-none"
         >
           {t.ghostText}
         </motion.span>
@@ -104,7 +115,7 @@ export default function Faq({ lang }: SectionProps) {
 
       <div className="max-w-6xl mx-auto w-full relative z-10 px-6 -mt-16 md:-mt-24">
         
-        {/* HEADER: PADRÃO INARI */}
+        {/* SECTION: HEADER TITLES (PADRONIZADO) */}
         <div className="relative mb-24">
           <motion.div 
             style={{ scaleY: smoothProgress, originY: 0 }}
@@ -121,7 +132,7 @@ export default function Faq({ lang }: SectionProps) {
           </div>
         </div>
 
-        {/* LISTA DE PERGUNTAS */}
+        {/* SECTION: ACCORDION LIST */}
         <div className="max-w-4xl ml-auto space-y-6">
           {t.items.map((item, index) => (
             <motion.div 
@@ -129,9 +140,10 @@ export default function Faq({ lang }: SectionProps) {
               className={`group relative transition-all duration-500 rounded-lg ${
                 aberto === index 
                 ? 'bg-zinc-50 dark:bg-zinc-900/40 translate-x-2' 
-                : 'bg-transparent border-b border-zinc-100 dark:border-white/5 hover:bg-zinc-50/50 dark:hover:bg-white/[0.02]'
+                : 'bg-transparent border-b border-zinc-100 dark:border-white/5 hover:bg-zinc-50/50 dark:hover:bg-white/2'
               }`}
             >
+              {/* ACCORDION TRIGGER */}
               <button
                 onClick={() => setAberto(aberto === index ? null : index)}
                 className="w-full py-10 px-6 flex items-center justify-between text-left relative z-10"
@@ -154,6 +166,7 @@ export default function Faq({ lang }: SectionProps) {
                 </div>
               </button>
 
+              {/* ACCORDION CONTENT */}
               <AnimatePresence>
                 {aberto === index && (
                   <motion.div
@@ -175,8 +188,9 @@ export default function Faq({ lang }: SectionProps) {
         </div>
       </div>
 
-      {/* GLOW DE FUNDO */}
-      <div className="hidden dark:block absolute top-1/2 left-0 w-[500px] h-[500px] bg-[#E89624]/10 blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+      {/* BACKGROUND DECORATION */}
+      <div className="hidden dark:block absolute top-1/2 left-0 w-125 h-125 bg-[#E89624]/10 blur-[150px] rounded-full pointer-events-none mix-blend-screen" />
+      
     </section>
   );
 }

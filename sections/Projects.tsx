@@ -1,4 +1,5 @@
 "use client";
+
 import { motion, useScroll, useSpring } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import { useRef } from "react";
@@ -11,6 +12,9 @@ interface SectionProps {
 export default function Projetos({ lang }: SectionProps) {
   const containerRef = useRef(null);
 
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO (PT / EN)
+  // ---------------------------------------------------------
   const content = {
     PT: {
       title: "PROJETOS",
@@ -34,6 +38,9 @@ export default function Projetos({ lang }: SectionProps) {
 
   const t = content[lang as keyof typeof content];
   
+  // ---------------------------------------------------------
+  // LÓGICA DE SCROLL (INDICADOR LATERAL)
+  // ---------------------------------------------------------
   const { scrollYProgress } = useScroll({ 
     target: containerRef, 
     offset: ["start end", "end start"] 
@@ -53,7 +60,7 @@ export default function Projetos({ lang }: SectionProps) {
     >
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
-        {/* HEADER: RIGOROSAMENTE IGUAL AO DE SOLUÇÕES */}
+        {/* SECTION: HEADER (PADRONIZADO COM SOLUÇÕES) */}
         <div className="relative mb-16 md:mb-24">
           <motion.div 
             style={{ scaleY: scaleY, originY: 0 }}
@@ -78,7 +85,7 @@ export default function Projetos({ lang }: SectionProps) {
           </div>
         </div>
 
-        {/* LISTA EXECUTIVA: COMPACTA E CLICÁVEL */}
+        {/* SECTION: LISTA DE PROJETOS */}
         <div className="flex flex-col border-t border-white/10">
           {t.items.map((item, index) => (
             <Link 
@@ -93,7 +100,7 @@ export default function Projetos({ lang }: SectionProps) {
                   {item.id}
                 </span>
                 
-                {/* Título: Ajustado para não quebrar no mobile */}
+                {/* Título do Projeto */}
                 <h3 className="text-2xl md:text-6xl font-title text-white uppercase italic tracking-tighter group-hover:text-[#E89624] transition-all duration-500 group-hover:translate-x-2 md:group-hover:translate-x-4">
                   {item.titulo}
                 </h3>
@@ -110,11 +117,12 @@ export default function Projetos({ lang }: SectionProps) {
                 </div>
               </div>
 
-              {/* Linha de preenchimento (Desktop Only para não poluir mobile) */}
-              <div className="hidden md:block absolute left-0 bottom-0 w-full h-[1px] bg-[#E89624] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
+              {/* Decorador: Linha de preenchimento (Desktop Only) */}
+              <div className="hidden md:block absolute left-0 bottom-0 w-full h-px bg-[#E89624] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
             </Link>
           ))}
         </div>
+
       </div>
     </section>
   );

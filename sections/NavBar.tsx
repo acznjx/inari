@@ -1,4 +1,5 @@
 "use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
@@ -11,12 +12,14 @@ interface NavBarProps {
 export default function Navbar({ lang, setLang }: NavBarProps) {
   const [mounted, setMounted] = useState(false);
 
-  // Forçar dark mode e montar componente
   useEffect(() => {
     document.documentElement.classList.add("dark");
     setMounted(true);
   }, []);
 
+  // ---------------------------------------------------------
+  // CONFIGURAÇÕES DE TRADUÇÃO
+  // ---------------------------------------------------------
   const menuItems = {
     PT: [
       { name: "Projetos", id: "projetos" },
@@ -38,7 +41,7 @@ export default function Navbar({ lang, setLang }: NavBarProps) {
     <nav className="absolute top-0 left-0 w-full z-50 py-6 md:py-8 px-4 md:px-16">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         
-        {/* LOGO - TAMANHO AMPLIADO (MAX IMPACT) */}
+        {/* SECTION: LOGO */}
         <a 
           href="#home" 
           className="relative flex items-center cursor-pointer transition-opacity hover:opacity-80 shrink-0"
@@ -46,14 +49,14 @@ export default function Navbar({ lang, setLang }: NavBarProps) {
           <Image 
             src="https://i.imgur.com/Ugss97f.png" 
             alt="Inari Technology" 
-            width={280} // Aumentado para suportar o novo h-24
+            width={280} 
             height={80} 
             priority
-            className="h-14 md:h-24 w-auto object-contain" // h-14 no mobile e h-24 no desktop
+            className="h-14 md:h-24 w-auto object-contain" 
           />
         </a>
 
-        {/* LINKS DE NAVEGAÇÃO - DESKTOP ONLY */}
+        {/* SECTION: LINKS DE NAVEGAÇÃO (DESKTOP) */}
         <div className="hidden md:flex items-center gap-10">
           <AnimatePresence mode="wait">
             <motion.div 
@@ -77,7 +80,7 @@ export default function Navbar({ lang, setLang }: NavBarProps) {
           </AnimatePresence>
         </div>
 
-        {/* SWITCHER DE IDIOMA */}
+        {/* SECTION: SELETOR DE IDIOMA */}
         <div className="relative flex items-center bg-[#0a0a0a] border border-zinc-800/50 p-1 md:p-1.5 rounded-full backdrop-blur-xl shrink-0 scale-90 md:scale-100">
           <div className="flex gap-1 relative">
             {["PT", "EN"].map((l) => (
@@ -92,6 +95,7 @@ export default function Navbar({ lang, setLang }: NavBarProps) {
               </button>
             ))}
 
+            {/* BACKGROUND ANIMADO (INDICADOR) */}
             <motion.div
               layoutId="activeLang"
               className="absolute inset-y-0 left-0 w-10 md:w-12 bg-[#E89624] rounded-full z-0 shadow-[0_0_20px_rgba(232,150,36,0.4)]"
@@ -106,6 +110,7 @@ export default function Navbar({ lang, setLang }: NavBarProps) {
             />
           </div>
           
+          {/* ENGINE STATUS DISPLAY */}
           <div className="hidden md:block absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
              <motion.span 
                key={lang}

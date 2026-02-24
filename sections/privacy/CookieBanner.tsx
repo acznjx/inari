@@ -1,30 +1,43 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
-const translations = {
-  PT: {
-    tag: "Segurança",
-    title: "PRIVACIDADE DE DADOS",
-    text: "Utilizamos tecnologia de ponta para otimizar sua jornada. Ao prosseguir, você concorda com nossas políticas de uso.",
-    link: "Privacidade",
-    btn: "Aceitar e Continuar",
-    btnDecline: "Recusar"
-  },
-  EN: {
-    tag: "Security",
-    title: "DATA PRIVACY",
-    text: "We use cutting-edge technology to optimize your journey. By proceeding, you agree to our usage policies.",
-    link: "Privacy",
-    btn: "Accept and Continue",
-    btnDecline: "Decline"
-  }
-};
+interface CookieProps {
+  lang: string;
+}
 
-export default function CookieBanner({ lang }: { lang: string }) {
+export default function CookieBanner({ lang }: CookieProps) {
   const [show, setShow] = useState(false);
 
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO (PT / EN)
+  // ---------------------------------------------------------
+  const translations = {
+    PT: {
+      tag: "Segurança",
+      title: "PRIVACIDADE DE DADOS",
+      text: "Utilizamos tecnologia de ponta para otimizar sua jornada. Ao prosseguir, você concorda com nossas políticas de uso.",
+      link: "Privacidade",
+      btn: "Aceitar e Continuar",
+      btnDecline: "Recusar"
+    },
+    EN: {
+      tag: "Security",
+      title: "DATA PRIVACY",
+      text: "We use cutting-edge technology to optimize your journey. By proceeding, you agree to our usage policies.",
+      link: "Privacy",
+      btn: "Accept and Continue",
+      btnDecline: "Decline"
+    }
+  };
+
+  const t = lang === "EN" ? translations.EN : translations.PT;
+
+  // ---------------------------------------------------------
+  // LÓGICA DE CONSENTIMENTO (LocalStorage)
+  // ---------------------------------------------------------
   useEffect(() => {
     const consent = localStorage.getItem("inari-consent");
     if (!consent) {
@@ -43,8 +56,6 @@ export default function CookieBanner({ lang }: { lang: string }) {
     setShow(false);
   };
 
-  const t = lang === "EN" ? translations.EN : translations.PT;
-
   return (
     <AnimatePresence>
       {show && (
@@ -53,18 +64,21 @@ export default function CookieBanner({ lang }: { lang: string }) {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
-          // Aumentado para z-100 para garantir visibilidade sobre botões do hero no mobile
-          className="fixed bottom-8 right-0 md:right-8 z-[100] w-full md:w-96 px-4 md:px-0"
+          className="fixed bottom-8 right-0 md:right-8 z-100 w-full md:w-96 px-4 md:px-0"
         >
-          {/* Mantive as cores exatas: white/95 e dark:bg-[#0a0a0a]/95 */}
+          {/* BANNER CONTAINER */}
           <div className="bg-white/95 dark:bg-[#0a0a0a]/95 backdrop-blur-2xl border border-zinc-200 dark:border-white/10 p-8 rounded-3xl shadow-2xl">
             <div className="flex flex-col gap-6">
+              
+              {/* HEADER: TAG + STATUS */}
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#E89624]">
                   {t.tag}
                 </span>
                 <div className="w-2 h-2 rounded-full bg-[#E89624] animate-pulse" />
               </div>
+
+              {/* BODY: TEXTO INFORMATIVO */}
               <div className="space-y-3">
                 <h4 className="text-xl font-black text-zinc-900 dark:text-white italic tracking-tighter leading-none">
                   {t.title}
@@ -73,6 +87,8 @@ export default function CookieBanner({ lang }: { lang: string }) {
                   {t.text}
                 </p>
               </div>
+
+              {/* ACTIONS: LINKS E BOTÕES */}
               <div className="flex flex-col gap-5">
                 <Link 
                   href="/privacidade" 
@@ -83,6 +99,7 @@ export default function CookieBanner({ lang }: { lang: string }) {
                 </Link>
                 
                 <div className="flex flex-col gap-3">
+                  {/* BOTÃO ACEITAR */}
                   <button 
                     onClick={accept}
                     className="relative overflow-hidden group w-full bg-zinc-900 dark:bg-white text-white dark:text-black py-4 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all active:scale-95"
@@ -91,7 +108,7 @@ export default function CookieBanner({ lang }: { lang: string }) {
                     <div className="absolute inset-0 bg-[#E89624] translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                   </button>
 
-                  {/* Opção de recusar integrada de forma profissional e limpa */}
+                  {/* BOTÃO RECUSAR */}
                   <button 
                     onClick={decline}
                     className="w-full text-center text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-red-500 transition-colors py-1"
@@ -100,6 +117,7 @@ export default function CookieBanner({ lang }: { lang: string }) {
                   </button>
                 </div>
               </div>
+
             </div>
           </div>
         </motion.div>

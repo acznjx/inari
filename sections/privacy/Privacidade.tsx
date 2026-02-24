@@ -1,4 +1,5 @@
 "use client";
+
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
@@ -8,6 +9,10 @@ interface SectionProps {
 }
 
 export default function Privacidade({ lang, setLang }: SectionProps) {
+  
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO (PT / EN)
+  // ---------------------------------------------------------
   const content = {
     PT: {
       title: "Política de Privacidade e Proteção de Dados",
@@ -30,7 +35,7 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
       intro: "This document governs Inari Technology's data handling guidelines. Our privacy architecture is designed to exceed LGPD (Brazil) and GDPR (Global) requirements, ensuring digital sovereignty for our users.",
       sections: [
         { t: "Data Controllership", d: "Inari Technology acts as the sole controller of the data collected. Information is processed with end-to-end encryption and is never shared with data brokers or unauthorized third parties." },
-        { t: "Purpose of Processing", d: "Processing occurs for: (i) execution of contracted services; (ii) technical project communications; (iii) compliance with current national and international legal and tax requirements." },
+        { t: "Purpose of Processing", d: "Processing occurs for: (I) execution of contracted services; (II) technical project communications; (III) compliance with current national and international legal and tax requirements." },
         { t: "Cookie Architecture", d: "We use a minimalist cookie structure. The user has the right to revoke analytical consent at any time, maintaining only the technical cookies strictly necessary for security." },
         { t: "Rights and Governance", d: "In compliance with LGPD and GDPR, we guarantee free access, portability, and permanent deletion of records. To exercise your rights, contact: inaricorporate@gmail.com." }
       ]
@@ -41,7 +46,8 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
 
   return (
     <div className="min-h-screen font-inter selection:bg-[#E89624]/20 pb-20">
-      {/* Header Superior Minimalista */}
+      
+      {/* SECTION: NAVIGATION BAR */}
       <nav className="flex justify-between items-center py-6 border-b border-zinc-100 dark:border-white/5 mb-12 sticky top-0 bg-white/80 dark:bg-[#050505]/80 backdrop-blur-md z-10 px-4 md:px-0">
         <Link 
           href="/" 
@@ -50,13 +56,16 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
           <span className="text-sm">←</span> {t.back}
         </Link>
 
+        {/* LANGUAGE SWITCHER */}
         <div className="flex gap-1 bg-zinc-100 dark:bg-white/5 p-1 rounded-full border border-zinc-200 dark:border-white/10">
           {["PT", "EN"].map((l) => (
             <button
               key={l}
               onClick={() => setLang(l)}
               className={`px-3 py-1 text-[9px] font-black rounded-full transition-all duration-500 ${
-                lang === l ? "bg-white dark:bg-white/10 text-[#E89624] shadow-sm" : "text-zinc-400"
+                lang === l 
+                ? "bg-white dark:bg-white/10 text-[#E89624] shadow-sm" 
+                : "text-zinc-400"
               }`}
             >
               {l}
@@ -65,6 +74,7 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
         </div>
       </nav>
 
+      {/* SECTION: MAIN CONTENT WRAPPER */}
       <AnimatePresence mode="wait">
         <motion.div 
           key={lang}
@@ -74,13 +84,16 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
           transition={{ duration: 0.4, ease: "easeInOut" }}
           className="max-w-3xl mx-auto px-4 md:px-0"
         >
+          
+          {/* CONTENT: HEADER & METADATA */}
           <header className="mb-12">
-            <span className="text-[9px] font-bold text-[#E89624] tracking-[0.4em] uppercase block mb-3">
+            <span className="text-[9px] font-bold text-[#E89624] tracking-[0.4em] uppercase block mb-3 italic">
               {t.subtitle}
             </span>
             <h1 className="text-3xl md:text-5xl font-bebas font-normal italic uppercase tracking-tight leading-tight text-zinc-900 dark:text-white">
               {t.title}
             </h1>
+            
             <div className="flex items-center gap-4 mt-6 pt-4 border-t border-zinc-100 dark:border-white/5">
               <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-widest italic">
                 {t.update}
@@ -92,12 +105,14 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
             </div>
           </header>
 
+          {/* CONTENT: INTRO STATEMENT */}
           <div className="mb-16">
-            <p className="text-base md:text-lg leading-relaxed text-zinc-500 dark:text-zinc-400 font-inter font-medium border-l border-[#E89624] pl-6 py-2">
+            <p className="text-base md:text-lg leading-relaxed text-zinc-500 dark:text-zinc-400 font-inter font-medium border-l border-[#E89624] pl-6 py-2 italic">
               {t.intro}
             </p>
           </div>
 
+          {/* CONTENT: LEGAL SECTIONS */}
           <div className="space-y-12">
             {t.sections.map((sec, i) => (
               <section key={i} className="group relative">
@@ -118,6 +133,7 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
             ))}
           </div>
 
+          {/* SECTION: LEGAL FOOTER */}
           <footer className="mt-24 pt-8 border-t border-zinc-100 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <div className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.4)] animate-pulse" />
@@ -129,6 +145,7 @@ export default function Privacidade({ lang, setLang }: SectionProps) {
               Inari Technology © 2026 Legal Counsel
             </p>
           </footer>
+
         </motion.div>
       </AnimatePresence>
     </div>

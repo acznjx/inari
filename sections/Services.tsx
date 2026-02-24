@@ -1,4 +1,5 @@
 "use client";
+
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
@@ -9,7 +10,10 @@ interface SectionProps {
 
 export default function Solucoes({ lang }: SectionProps) {
   const containerRef = useRef(null);
-  
+
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO (PT / EN)
+  // ---------------------------------------------------------
   const content = {
     PT: {
       title: "SOLUÇÕES",
@@ -59,6 +63,9 @@ export default function Solucoes({ lang }: SectionProps) {
 
   const t = content[lang as keyof typeof content];
 
+  // ---------------------------------------------------------
+  // LÓGICA DE SCROLL (INDICADOR LATERAL)
+  // ---------------------------------------------------------
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
@@ -78,7 +85,7 @@ export default function Solucoes({ lang }: SectionProps) {
     >
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
-        {/* HEADER */}
+        {/* SECTION: HEADER COM INDICADOR DE SCROLL */}
         <div className="relative mb-16 md:mb-24">
           <motion.div 
             style={{ scaleY: scaleY, originY: 0 }}
@@ -103,7 +110,7 @@ export default function Solucoes({ lang }: SectionProps) {
           </div>
         </div>
 
-        {/* CARDS */}
+        {/* SECTION: GRID DE CARDS (ACETERNITY UI) */}
         <div className="w-full -mt-4">
           <HoverEffect items={t.items} className="md:gap-8" />
         </div>

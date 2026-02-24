@@ -1,4 +1,5 @@
 "use client";
+
 import { motion, useScroll, useSpring } from "framer-motion";
 import Link from 'next/link';
 import { FaWhatsapp, FaArrowRight, FaInstagram, FaLinkedinIn } from "react-icons/fa";
@@ -11,6 +12,9 @@ interface SectionProps {
 export default function Contato({ lang }: SectionProps) {
   const containerRef = useRef(null);
 
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO (PT / EN)
+  // ---------------------------------------------------------
   const content = {
     PT: {
       title: "VAMOS",
@@ -32,6 +36,9 @@ export default function Contato({ lang }: SectionProps) {
 
   const t = content[lang as keyof typeof content];
   
+  // ---------------------------------------------------------
+  // LÓGICA DE SCROLL (INDICADOR LATERAL)
+  // ---------------------------------------------------------
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
@@ -51,7 +58,7 @@ export default function Contato({ lang }: SectionProps) {
     >
       <div className="max-w-6xl mx-auto w-full relative z-10">
         
-        {/* HEADER: IDÊNTICO AO DE SERVICES/SOLUÇÕES */}
+        {/* SECTION: HEADER (PADRONIZADO) */}
         <div className="relative mb-16 md:mb-24">
           <motion.div 
             style={{ scaleY: scaleY, originY: 0 }}
@@ -76,9 +83,10 @@ export default function Contato({ lang }: SectionProps) {
           </div>
         </div>
 
-        {/* CONTEÚDO AJUSTADO */}
+        {/* SECTION: CONTEÚDO PRINCIPAL (GRID) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start pl-2 md:pl-10">
           
+          {/* LADO ESQUERDO: TEXTO E CTA */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -103,6 +111,7 @@ export default function Contato({ lang }: SectionProps) {
             </Link>
           </motion.div>
 
+          {/* LADO DIREITO: INFOS DE CONTATO */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -110,17 +119,21 @@ export default function Contato({ lang }: SectionProps) {
             transition={{ delay: 0.2 }}
             className="lg:col-span-5 space-y-16"
           >
-            {/* E-MAIL MENOR E PROFISSIONAL */}
+            {/* EMAIL WRAPPER */}
             <div>
-              <h4 className="text-[10px] font-bold text-[#E89624] uppercase tracking-[0.3em] mb-4 italic">{t.emailTitle}</h4>
+              <h4 className="text-[10px] font-bold text-[#E89624] uppercase tracking-[0.3em] mb-4 italic">
+                {t.emailTitle}
+              </h4>
               <p className="text-xl md:text-2xl font-title text-zinc-200 break-all tracking-tight uppercase italic group hover:text-[#E89624] transition-colors cursor-pointer">
                 inaricorporate@gmail.com
               </p>
             </div>
 
-            {/* SOCIAL */}
+            {/* SOCIAL MEDIA WRAPPER */}
             <div>
-              <h4 className="text-[10px] font-bold text-[#E89624] uppercase tracking-[0.3em] mb-8 italic">{t.socialTitle}</h4>
+              <h4 className="text-[10px] font-bold text-[#E89624] uppercase tracking-[0.3em] mb-8 italic">
+                {t.socialTitle}
+              </h4>
               <div className="flex gap-8">
                 {[ 
                   { icon: <FaInstagram />, href: "#" },

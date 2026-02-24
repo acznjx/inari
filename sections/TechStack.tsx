@@ -1,5 +1,6 @@
 "use client";
-import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
+
+import { motion, useScroll, useSpring } from "framer-motion";
 import { FaReact } from "react-icons/fa";
 import { SiTypescript, SiTailwindcss, SiNextdotjs, SiPostgresql, SiFramer, SiNodedotjs } from "react-icons/si";
 import { useRef } from "react";
@@ -8,6 +9,9 @@ interface SectionProps {
   lang: string;
 }
 
+// ---------------------------------------------------------
+// CONFIGURAÇÃO DAS TECNOLOGIAS
+// ---------------------------------------------------------
 const tecnologias = [
   { name: "Next.js", icon: <SiNextdotjs /> },
   { name: "React", icon: <FaReact /> },
@@ -23,6 +27,9 @@ const doubleTechs = [...tecnologias, ...tecnologias];
 export default function TechStack({ lang }: SectionProps) {
   const containerRef = useRef(null);
   
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO
+  // ---------------------------------------------------------
   const content = {
     PT: { title: "TECNOLOGIAS", subtitle: "UTILIZADAS" },
     EN: { title: "TECH", subtitle: "STACK" }
@@ -30,6 +37,9 @@ export default function TechStack({ lang }: SectionProps) {
 
   const t = content[lang as keyof typeof content];
 
+  // ---------------------------------------------------------
+  // LÓGICA DE ANIMAÇÃO DE SCROLL
+  // ---------------------------------------------------------
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
@@ -47,9 +57,8 @@ export default function TechStack({ lang }: SectionProps) {
       id="stacks" 
       className="relative w-full bg-[#050505] py-24 transition-colors duration-500 overflow-hidden"
     >
+      {/* SECTION: HEADER (PADRONIZADO) */}
       <div className="max-w-6xl mx-auto w-full relative z-10 mb-16 md:mb-24 px-6">
-        
-        {/* HEADER PADRONIZADO (IGUAL AO SERVICES) */}
         <div className="relative">
           <motion.div 
             style={{ scaleY: scaleY, originY: 0 }}
@@ -75,7 +84,7 @@ export default function TechStack({ lang }: SectionProps) {
         </div>
       </div>
 
-      {/* ESTEIRA INFINITA */}
+      {/* SECTION: ESTEIRA INFINITA (INFINITE SCROLL) */}
       <div className="relative flex overflow-hidden py-10">
         <motion.div 
           className="flex whitespace-nowrap gap-6 md:gap-8"
@@ -89,7 +98,7 @@ export default function TechStack({ lang }: SectionProps) {
           {doubleTechs.map((tech, index) => (
             <div 
               key={index}
-              className="group flex flex-col items-center justify-center min-w-[140px] md:min-w-[200px] aspect-square bg-white/5 rounded-[2.5rem] border border-white/10 hover:border-[#E89624]/40 transition-all duration-500"
+              className="group flex flex-col items-center justify-center min-w-35 md:min-w-50 aspect-square bg-white/5 rounded-[2.5rem] border border-white/10 hover:border-[#E89624]/40 transition-all duration-500"
             >
               <div className="text-4xl md:text-5xl text-white/20 group-hover:text-[#E89624] transition-all duration-500 transform group-hover:scale-110">
                 {tech.icon}
@@ -102,10 +111,11 @@ export default function TechStack({ lang }: SectionProps) {
           ))}
         </motion.div>
 
-        {/* MÁSCARAS DE GRADIENTE */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-[#050505] to-transparent z-10" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-[#050505] to-transparent z-10" />
+        {/* GRADIENT MASKS (CORRIGIDO PARA CANONICAL CLASSES) */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 bg-linear-to-r from-[#050505] to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 bg-linear-to-l from-[#050505] to-transparent z-10" />
       </div>
+
     </section>
   );
 }

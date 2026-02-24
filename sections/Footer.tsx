@@ -1,4 +1,5 @@
 "use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaInstagram, FaLinkedinIn, FaWhatsapp } from 'react-icons/fa';
@@ -9,6 +10,10 @@ interface SectionProps {
 }
 
 export default function Footer({ lang }: SectionProps) {
+  
+  // ---------------------------------------------------------
+  // DICIONÁRIO DE CONTEÚDO (PT / EN)
+  // ---------------------------------------------------------
   const content = {
     PT: {
       description: "Elevando o padrão de interfaces digitais através de design estratégico e tecnologia de alta performance.",
@@ -45,7 +50,7 @@ export default function Footer({ lang }: SectionProps) {
       id="inari-footer"
       className="relative w-full bg-white dark:bg-[#0f0f0f] pt-20 pb-8 px-6 transition-colors duration-500"
     >
-      {/* BOTÃO VOLTAR AO TOPO */}
+      {/* SECTION: BOTÃO VOLTAR AO TOPO */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
         <Link href="#top" className="group flex items-center justify-center">
           <div className="w-12 h-12 bg-[#E89624] rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(232,150,36,0.4)] group-hover:scale-110 transition-all duration-300">
@@ -69,7 +74,7 @@ export default function Footer({ lang }: SectionProps) {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
           
-          {/* LADO ESQUERDO: Branding */}
+          {/* SECTION: BRANDING & SOCIAL */}
           <div className="md:col-span-5 space-y-6">
             <motion.div 
               initial={{ borderColor: "rgb(228 228 231 / 0.1)" }}
@@ -92,7 +97,7 @@ export default function Footer({ lang }: SectionProps) {
             </div>
           </div>
 
-          {/* CENTRO: Navegação */}
+          {/* SECTION: NAVEGAÇÃO */}
           <div className="md:col-span-3 flex flex-col gap-4 md:pt-2">
             <span className="text-[10px] font-bold text-[#E89624] uppercase tracking-[0.2em]">{t.navTitle}</span>
             <nav className="grid grid-cols-1 gap-2 text-sm font-bold uppercase tracking-tight text-zinc-600 dark:text-zinc-400">
@@ -104,9 +109,9 @@ export default function Footer({ lang }: SectionProps) {
             </nav>
           </div>
 
-          {/* LADO DIREITO: Card Laranja */}
+          {/* SECTION: CTA CARD (LARANJA) */}
           <div className="md:col-span-4 relative group">
-            <div className="bg-[#E89624] rounded-3xl p-8 overflow-hidden min-h-[220px] flex flex-col justify-start shadow-[0_20px_40px_rgba(232,150,36,0.15)] relative">
+            <div className="bg-[#E89624] rounded-3xl p-8 overflow-hidden min-h-55 flex flex-col justify-start shadow-[0_20px_40px_rgba(232,150,36,0.15)] relative">
               <div className="relative z-10 space-y-4">
                 <h4 className="text-2xl font-black text-white uppercase leading-none italic whitespace-pre-line">
                   {t.ctaTitle}
@@ -133,7 +138,7 @@ export default function Footer({ lang }: SectionProps) {
           </div>
         </div>
 
-        {/* RODAPÉ FINAL */}
+        {/* SECTION: FOOTER BOTTOM (COPYRIGHT) */}
         <div className="mt-16 pt-8 border-t border-zinc-100 dark:border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-[10px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
             <span>© {new Date().getFullYear()} Inari Tech</span>

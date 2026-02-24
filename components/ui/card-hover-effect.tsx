@@ -6,6 +6,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
+// ---------------------------------------------------------
+// COMPONENTE PRINCIPAL: HOVER EFFECT
+// ---------------------------------------------------------
 export const HoverEffect = ({
   items,
   className,
@@ -20,8 +23,8 @@ export const HoverEffect = ({
   }[];
   className?: string;
 }) => {
-  // Estado para controlar qual card está com hover
-  let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  // CORREÇÃO ESLINT: Alterado de 'let' para 'const'
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div className={cn("grid grid-cols-1 md:grid-cols-2 py-10 gap-4", className)}>
@@ -37,8 +40,9 @@ export const HoverEffect = ({
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-brand/[0.12] dark:bg-brand/[0.2] block rounded-[2.5rem] z-0"
-                layoutId="hoverBackgroundSolucoes" // ID único para evitar conflitos
+                // CORREÇÃO TAILWIND: bg-brand/[0.12] -> bg-brand/12 | dark:bg-brand/[0.2] -> dark:bg-brand/20
+                className="absolute inset-0 h-full w-full bg-brand/12 dark:bg-brand/20 block rounded-[2.5rem] z-0"
+                layoutId="hoverBackgroundSolucoes"
                 initial={{ opacity: 0 }}
                 animate={{
                   opacity: 1,
@@ -54,6 +58,7 @@ export const HoverEffect = ({
           
           {/* CONTEÚDO DO CARD */}
           <Card>
+            {/* CARD HEADER */}
             <div className="flex items-center justify-between mb-8">
               <span className="font-body text-2xl font-light text-brand opacity-40 italic">
                 {item.index}
@@ -66,7 +71,7 @@ export const HoverEffect = ({
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
 
-            {/* FOOTER ESTILO PROJETOS */}
+            {/* CARD FOOTER (ESTILO PROJETOS) */}
             <div className="flex items-center justify-between w-full pt-6 mt-6 border-t border-content/10 font-sub text-[11px] font-black uppercase tracking-[0.3em] text-content">
               <span className="group-hover:text-brand transition-colors duration-300">
                 {item.cta || "Solicitar orçamento"}
@@ -81,6 +86,10 @@ export const HoverEffect = ({
     </div>
   );
 };
+
+// ---------------------------------------------------------
+// SUB-COMPONENTES: CARD ELEMENTS
+// ---------------------------------------------------------
 
 export const Card = ({
   className,
