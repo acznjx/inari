@@ -83,7 +83,7 @@ export default function Footer({ lang }: SectionProps) {
               className="border-l-4 pl-6 transition-colors duration-1000 ease-in-out"
             >
               <Link href="/" className="text-4xl font-black tracking-tighter text-black dark:text-white uppercase italic leading-none">
-                INARI<span className="text-[#E89624]">TECH</span>
+                INARI<span className="text-[#E89624]">GROUP</span>
               </Link>
               <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-sm">
                 {t.description}
