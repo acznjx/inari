@@ -141,7 +141,7 @@ export default function Footer({ lang }: SectionProps) {
         {/* SECTION: FOOTER BOTTOM (COPYRIGHT) */}
         <div className="mt-16 pt-8 border-t border-zinc-100 dark:border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4 text-[10px] font-medium text-zinc-400 dark:text-zinc-500 uppercase tracking-widest">
-            <span>© {new Date().getFullYear()} Inari Tech</span>
+            <span>© {new Date().getFullYear()} Inari Group</span>
             <span className="hidden md:block opacity-30">•</span>
             <span>{t.rights}</span>
           </div>
